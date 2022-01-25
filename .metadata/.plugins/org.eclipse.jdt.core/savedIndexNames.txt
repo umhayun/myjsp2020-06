@@ -1,0 +1,7 @@
+INDEX VERSION 1.131+C:\myjsp2020-06\.metadata\.plugins\org.eclipse.jdt.core
+691434078.index
+2056725392.index
+2291359535.index
+879304602.index
+2350683224.index
+2384948180.index
