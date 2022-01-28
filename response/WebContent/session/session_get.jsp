@@ -5,7 +5,7 @@
 	/*
 	세션에 저장된 값은 같은 브라우저가 종료되기까지, 또는 기본시간 30분까지 어느 페이지에서도 
 	사용이 가능하다.
-	getAttribut("세션이름")메서드사용
+	getAttribute("세션이름")메서드사용
 	*/
 	String id=(String)session.getAttribute("id");
 	String name=(String)session.getAttribute("name");
