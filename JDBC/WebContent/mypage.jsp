@@ -19,6 +19,6 @@
 	<h2><%=id %>님 환영합니다.</h2>
 	<a href="logout.jsp">로그아웃</a>
 	<a href="modify_ok">회원 정보 수정</a>
-	<a href="#">회원 탈퇴</a>
+	<a href="delete_ok">회원 탈퇴</a>
 </body>
 </html>

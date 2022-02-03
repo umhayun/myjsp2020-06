@@ -44,7 +44,7 @@ public class join_ok extends HttpServlet {
 		String phone2=request.getParameter("phone2");
 		String email=request.getParameter("email");
 		String gender=request.getParameter("gender");
-		
+		/*
 		String url="jdbc:oracle:thin:@localhost:1521/XEPDB1";
 		String uid="myjsp";
 		String upw="myjsp";
@@ -59,7 +59,14 @@ public class join_ok extends HttpServlet {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			conn=DriverManager.getConnection(url, uid, upw);
 			stmt=conn.createStatement();
-			int result=stmt.executeUpdate(sql);
+			int result=stmt.executeUpdate(sql);*/
+		//DAO객체 생성
+		MemberDAO dao=MemberDAO.getInstance();
+		
+		//VO객체 생성
+		MemberVO vo= new MemberVO(id, pw, name, phone1, phone2, email, gender);
+		//DAO에 join메서드 사용
+		int result=dao.join(vo);
 			if(result==1) {
 				//성공시
 				response.sendRedirect("join_success.jsp");
@@ -68,17 +75,17 @@ public class join_ok extends HttpServlet {
 				//실패시
 				response.sendRedirect("join_fail.jsp");
 			}
-		}catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}finally {
-			try {
-				if(conn!=null) conn.close();
-				if(stmt!=null) stmt.close();
-			} catch (Exception e2) {
-				// TODO: handle exception
-			}
-		}
+//		}catch (Exception e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//		}finally {
+//			try {
+//				if(conn!=null) conn.close();
+//				if(stmt!=null) stmt.close();
+//			} catch (Exception e2) {
+//				// TODO: handle exception
+//			}
+//		}
 		
 	}
 
