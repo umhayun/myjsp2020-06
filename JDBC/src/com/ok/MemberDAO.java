@@ -100,9 +100,88 @@ public class MemberDAO {
 	}
 	public MemberVO getInfo(String id) {
 		MemberVO vo=null;
-		conn=DriverManager.getConnection(url, user, password);
+		String sql="select * from testusers where id=?";
+		try {
+			conn=DriverManager.getConnection(url, user, password);
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				//rs.getString(컬럼명)으로 값을 얻어오는 코드 작선
+				String name=rs.getString("name");
+				String phone1=rs.getString("phone1");
+				String phone2=rs.getString("phone2");
+				String email=rs.getString("email");
+				String gender=rs.getString("gender");
+				vo=new MemberVO(id, null, name, phone1, phone2, email, gender);
+			}
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(conn!=null) conn.close();
+				if(pstmt!=null) pstmt.close();
+				if(rs!=null) rs.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
 		
 		return vo;
+	}
+	
+	public int update(MemberVO vo) {
+		String sql="update testusers set name=?, phone1=?,phone2=?, email=?, gender=? where id=?";
+		int result=0;
+		try {
+			conn=DriverManager.getConnection(url, user, password);
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, vo.getName());
+			pstmt.setString(2, vo.getPhone1());
+			pstmt.setString(3, vo.getPhone2());
+			pstmt.setString(4, vo.getEmail());
+			pstmt.setString(5, vo.getGender());
+			pstmt.setString(6, vo.getId());
+			result=pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(conn!=null) conn.close();
+				if(pstmt!=null) pstmt.close();
+				if(rs!=null) rs.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+	
+	public int delete(String id) {
+		int result=0;
+		String sql="delete from testusers where id=?";
+		try {
+			conn=DriverManager.getConnection(url, user, password);
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1,id);
+			result=pstmt.executeUpdate();
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(conn!=null) conn.close();
+				if(pstmt!=null) pstmt.close();
+				if(rs!=null) rs.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+				
+		return result;
 	}
 }  
 
