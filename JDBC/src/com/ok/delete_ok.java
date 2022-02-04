@@ -24,11 +24,19 @@ public class delete_ok extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/*
+		 * 1. 아이디는 세션에서 얻는다. DAO에 delete(id) 메서드 생성
+		 * 2. 메서드 생성시에 executedUpdate()메서드 사용하여 성공시 delete(id)메서드에
+		 * =>1을 반환 : 세션을 전부삭제후에 login.jsp로이동
+		 * =>0을반환 : mypage.jsp로 이동
+		 * */
+		
 		HttpSession session=request.getSession();
 		String id=(String)session.getAttribute("sid");
 		MemberDAO dao= MemberDAO.getInstance();
 		int result=dao.delete(id);
 		if(result==1) {
+			session.invalidate();
 			response.sendRedirect("login.jsp");
 		}
 		else

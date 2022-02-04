@@ -5,34 +5,33 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
 public class MemberDAO {
 
-	/*
-	 * DAO단수 DB연동을 담당하는 클래스
-	 * 여러 생성하지 않도록 일반 클래스로 만들면, 메모리 과부하가 올 수 있다.
-	 * 싱글톤 패턴을 적용하여 객체를 1개로 제한
-	 */
-	//1. 스스로의 객체를 멤버 변수로 선언하고 1개로 제한.
+	private DataSource ds; //데이터 소스 객체 생성
+	private Context ct;// javax.naming.*
+	
+	
 	private static MemberDAO instance=new MemberDAO();
 	
-	//2. 외부에서 객체를 생성할 수 없도록 생성자에 private처리
+
 	private MemberDAO() {
-		//생성자가 한번 동작할 때에 다음 내용을 처리...
+
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
+			ct=new InitialContext();//이니셜 컨텍스트 객체 생성
+			ds=(DataSource)ct.lookup("java:comp/env/jdbc/oracle"); //이니셜 컨텍스트로부터 찾음.
 		} catch (Exception e) {
-			System.out.println("드라이버 호출시 에러 발생");
+			e.printStackTrace();
 		}
 	}
-	//3.외부에서 객체를 요구할 때 getter메서드만 써서 반환
+
 	public static MemberDAO getInstance() {
 		return instance;
 	}
-	//DB연동을 위해서 필요한 변수와 객체 선언
-	private String url="jdbc:oracle:thin:@localhost:1521/XEPDB1";
-	private String user="myjsp";
-	private String password="myjsp";
-	
+
 	private Connection conn=null;
 	private PreparedStatement pstmt=null;
 	private ResultSet rs=null;
@@ -44,7 +43,8 @@ public class MemberDAO {
 		
 		try {
 			//connection 객체 생성
-			conn=DriverManager.getConnection(url, user, password);
+			//conn=DriverManager.getConnection(url, user, password);
+			conn=ds.getConnection();
 			//PreparedStatement 객체 생성
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, vo.getId());
@@ -74,7 +74,7 @@ public class MemberDAO {
 		int result=0;
 		String sql="select * from testusers where id=? and pw=?";
 		try {
-			conn=DriverManager.getConnection(url, user, password);
+			conn=ds.getConnection();
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.setString(2, pw);
@@ -102,7 +102,7 @@ public class MemberDAO {
 		MemberVO vo=null;
 		String sql="select * from testusers where id=?";
 		try {
-			conn=DriverManager.getConnection(url, user, password);
+			conn=ds.getConnection();
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			rs=pstmt.executeQuery();
