@@ -135,7 +135,7 @@ public class MemberDAO {
 		String sql="update testusers set name=?, phone1=?,phone2=?, email=?, gender=? where id=?";
 		int result=0;
 		try {
-			conn=DriverManager.getConnection(url, user, password);
+			conn=ds.getConnection();
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, vo.getName());
 			pstmt.setString(2, vo.getPhone1());
@@ -163,7 +163,7 @@ public class MemberDAO {
 		int result=0;
 		String sql="delete from testusers where id=?";
 		try {
-			conn=DriverManager.getConnection(url, user, password);
+			conn=ds.getConnection();
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1,id);
 			result=pstmt.executeUpdate();

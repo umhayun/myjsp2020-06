@@ -23,15 +23,15 @@ tr{
 }
 
 </style>
-<body>
+
 	<section>
 		<div align="center" >
-			<h1>회원가입을 위한 폼태그 위치</h1>
+			<h1>회원가입</h1>
 			<form name="regform" action="user_join_ok.jsp" method="post">			
 				<table>
 					<tr  >
 						<td >아이디</td>
-						<td><input type="text" name="id" placehold="4글자 이상 8글자 이하"></td>
+						<td><input type="text" name="id" placeholder="4글자 이상 8글자 이하"></td>
 					</tr>
 					<tr >
 						<td>비밀번호</td>
@@ -57,7 +57,7 @@ tr{
 				</table>
 				<br>
 					<input class="b1" type="button" value="회원가입" class="btn btn-primary" onclick="check()">
-					<input class="b2" type="button" value="로그인" class="btn btn-info">
+					<input class="b2" type="button" value="로그인" class="btn btn-info" onclick="location.href='user_login.jsp'">
 							
 				<br>
 				<br>

@@ -70,12 +70,23 @@
                     <li>
                         <a href="">BOARD</a>
                     </li>
+                    <%if(session.getAttribute("user_id")==null){ %>
                     <li>
-                        <a href="">LOGIN</a>
+                        <a href="/Myweb/user/user_login.jsp">LOGIN</a>
                     </li>
+                    
                     <li>
                         <a href="/Myweb/user/join.jsp" style="color:red">JOIN</a>
                     </li>
+                    <%}else{%>
+                    <li>
+                        <a href="/Myweb/user/user_logout.jsp">LOGOUT</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/Myweb/user/user_mypage.jsp" style="color:red">MyPage</a>
+                    </li>
+                    <%} %>
                 </ul>
             </div>
             
@@ -85,3 +96,4 @@
         <!-- /.container -->
     </nav>
  	<!-- end header -->
+ 	<body>
